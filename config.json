@@ -3,8 +3,8 @@
   "maxBoostLevel": 49,
   "game": {
     "messageCount": {
-      "min": 13422,
-      "max": 13473
+      "min": 30,
+      "max": 200
     },
     "interval": {
       "min": 500,
