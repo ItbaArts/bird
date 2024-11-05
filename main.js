@@ -114,7 +114,7 @@ class Birdton {
       }, 1000);
 
       logger.info(
-        `Search game session (Duration: ${totalTimeSeconds}s)`
+        `Search game session (Target Score: ${totalMessages} | Duration: ${totalTimeSeconds}s)`
       );
 
       const gameIdMessage = {
