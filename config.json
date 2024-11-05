@@ -1,0 +1,15 @@
+{
+  "baseURL": "https://birdton.site",
+  "maxBoostLevel": 49,
+  "game": {
+    "messageCount": {
+      "min": 13422,
+      "max": 13473
+    },
+    "interval": {
+      "min": 500,
+      "max": 2500,
+      "avg": 2000
+    }
+  }
+}
