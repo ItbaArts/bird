@@ -40,7 +40,7 @@ class Birdton {
       currentBoost: null,
       currentTask: null,
       initialAdsLeft: 0,
-      adsProcessed: false,
+      adsProcessed: true,
       userId: "",
     };
   }
@@ -96,14 +96,25 @@ class Birdton {
 
   sendGameIdMessage() {
     if (this.state.ws && this.state.ws.readyState === WebSocket.OPEN) {
-      const totalMessages = Math.floor(Math.random() * 21) + 30;
+      const totalMessages = Math.floor(Math.random() * 51) + 45;
       const avgInterval = 2000;
       const totalTimeSeconds = Math.ceil((totalMessages * avgInterval) / 1000);
-      const minutes = Math.floor(totalTimeSeconds / 60);
-      const seconds = totalTimeSeconds % 60;
+      
+      let countdown = totalTimeSeconds;
+      const timer = setInterval(() => {
+        const minutes = Math.floor(countdown / 60);
+        const seconds = countdown % 60;
+        process.stdout.write(`\rPlaying game: ${minutes}m ${seconds}s remaining`);
+        
+        countdown--;
+        if (countdown < 0) {
+          clearInterval(timer);
+          process.stdout.write('\n');
+        }
+      }, 1000);
 
       logger.info(
-        `Initiating gaming session (Estimated duration: ${minutes}m ${seconds}s)`
+        `Search game session (Duration: ${totalTimeSeconds}s)`
       );
 
       const gameIdMessage = {
@@ -116,7 +127,7 @@ class Birdton {
 
   sendPipeMessages(gameData) {
     let messageCount = 0;
-    const totalMessages = Math.floor(Math.random() * 21) + 30;
+    const totalMessages = Math.floor(Math.random() * 51) + 45;
     let totalTime = 0;
 
     const sendPipeMessage = () => {
@@ -148,22 +159,25 @@ class Birdton {
   }
 
   async buyBoost(boostId, boostValue) {
+    const requiredBalance = this.state.coinValues[boostValue];
+    const safetyMargin = 1000;
+
     if (boostValue >= this.config.maxBoostLevel) {
       logger.info("Maximum boost threshold achieved. Commencing gameplay...");
       this.sendGameIdMessage();
       return;
     }
 
-    if (!this.state.coinValues[boostValue]) {
+    if (!requiredBalance) {
       logger.warn("Invalid boost parameters detected. Proceeding with gameplay...");
       this.sendGameIdMessage();
       return;
     }
 
-    if (this.state.balance > this.state.coinValues[boostValue]) {
+    if (this.state.balance > (requiredBalance + safetyMargin)) {
       logger.info(
         `Commencing boost enhancement protocol. Required assets: ${this.formatBalance(
-          this.state.coinValues[boostValue]
+          requiredBalance
         )}`
       );
       const boostBuyMessage = {
@@ -172,7 +186,7 @@ class Birdton {
       };
       this.state.ws.send(JSON.stringify(boostBuyMessage));
     } else {
-      logger.warn("Insufficient assets for enhancement");
+      logger.warn(`Insufficient assets for enhancement (Required: ${this.formatBalance(requiredBalance)})`);
       this.sendGameIdMessage();
     }
   }
@@ -333,7 +347,7 @@ class Birdton {
         balance,
         initialAdsLeft: ads_left,
         ads_left,
-        adsProcessed: false,
+        adsProcessed: true,
         userId: userData.id,
       });
 
@@ -407,16 +421,28 @@ class Birdton {
 
     while (true) {
       for (let [index, token] of tokens.entries()) {
-        const tgData = token.split("&")[1].split("=")[1];
-        const userData = JSON.parse(decodeURIComponent(tgData));
-        const firstName = userData.first_name;
-        logger.info(
-          `Initiating account processing sequence ${index + 1}/${tokens.length} - ${firstName}`
-        );
+        try {
+          const params = new URLSearchParams(token);
+          const userDataStr = params.get("user");
+          
+          if (!userDataStr) {
+            continue;
+          }
 
-        const payload = this.createPayload(userData, token);
-        await this.auth(payload, userData);
-        await this.waitForTaskCompletion();
+          const userData = JSON.parse(decodeURIComponent(userDataStr));
+          const firstName = userData.first_name || "User";
+          
+          logger.info(
+            `Initiating account processing sequence ${index + 1}/${tokens.length} - ${firstName}`
+          );
+
+          const payload = this.createPayload(userData, token);
+          await this.auth(payload, userData);
+          await this.waitForTaskCompletion();
+        } catch (error) {
+          logger.error(`Error processing token: ${error.message}`);
+          continue;
+        }
       }
 
       logger.info("Operational cycle completed. Initiating countdown sequence");
