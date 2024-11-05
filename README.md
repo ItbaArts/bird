@@ -15,6 +15,8 @@ TELEGRAM GROUP LINK: [Link Channel Telegram](https://t.me/UxScript)
 | Energy management              |     ✔     |
 | Session time estimation              |     ✔     |
 | Progress monitoring              |     ✔     |
+| Determine your own score              |     ✔     |
+| Determine your own game processing time              |     ✔     |
 
 ## Upcoming Features:
 - (Coming Soon)
