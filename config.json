@@ -2,7 +2,7 @@
   "baseURL": "https://birdton.site",
   "maxBoostLevel": 49,
   "game": {
-    "messageCount": {
+    "messageCount": { 
       "min": 30,
       "max": 200
     },
