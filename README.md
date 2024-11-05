@@ -9,14 +9,12 @@ TELEGRAM GROUP LINK: [Link Channel Telegram](https://t.me/UxScript)
 |--------------------------------|:---------:|
 | Multi-account support                |     ✔     |
 | Automated gameplay                       |     ✔     |
-| Maximal Score                       |     ✔     |
-| Balance tracking                      |     ✔     |
+| Determine your own score              |     ✔     |
+| Determine your own game processing time              |     ✔     |
 | Automatic boost upgrades              |     ✔     |
 | Energy management              |     ✔     |
 | Session time estimation              |     ✔     |
 | Progress monitoring              |     ✔     |
-| Determine your own score              |     ✔     |
-| Determine your own game processing time              |     ✔     |
 
 ## Upcoming Features:
 - (Coming Soon)
