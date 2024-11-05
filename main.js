@@ -121,7 +121,7 @@ class Birdton {
       const timer = setInterval(() => {
         const minutes = Math.floor(countdown / 60);
         const seconds = countdown % 60;
-        process.stdout.write(`\rGame time left: ${minutes}m ${seconds}s`);
+        process.stdout.write(`\rGame time left: ${minutes}m ${seconds}s             `);
         
         countdown--;
         if (countdown < 0) {
