@@ -9,6 +9,7 @@ TELEGRAM GROUP LINK: [Link Channel Telegram](https://t.me/UxScript)
 |--------------------------------|:---------:|
 | Multi-account support                |     ✔     |
 | Automated gameplay                       |     ✔     |
+| Maximal Score                       |     ✔     |
 | Balance tracking                      |     ✔     |
 | Automatic boost upgrades              |     ✔     |
 | Energy management              |     ✔     |
